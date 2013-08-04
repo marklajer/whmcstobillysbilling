@@ -39,9 +39,7 @@ function whmcstobillysbilling_config() {
 		"option7" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Annuller fakturaer (Not yet available)\" ", ),		
 		"option8" => array ("FriendlyName" => "BillysBilling account for payments", "Type" => "text", "Size" => "50", "Description" => "", "Default" => "Bank"),
 
-"option95" => array ("FriendlyName" => "countryId", "Type" => "text", "Size" => "50", "Description" => "The contacts home/business country. See https://dev.billysbilling.dk/api/v1/types/countries for possible values. This will be used for ALL contacts if the script cannot find a suitable ID from WHMCS.", "Default" => "DK"),
-
-		"option96" => array ("FriendlyName" => "localeId", "Type" => "text", "Size" => "50", "Description" => "Locale to use in communications with the contact. The locale also decides which locale should be used on invoices to the contact. See https://dev.billysbilling.dk/api/v1/types/locales for possible values. This will be used for ALL contacts.", "Default" => "da_DK"),
+"option95" => array ("FriendlyName" => "countryId", "Type" => "text", "Size" => "50", "Description" => "The contacts home/business country. See https://dev.billysbilling.dk/api/v1/types/countries for possible values. This will be used for ALL countries if the script cannot find a suitable ID from WHMCS.", "Default" => "DK"),
 
 		"option97" => array ("FriendlyName" => "currencyId", "Type" => "text", "Size" => "50", "Description" => "Default currency to use for invoices to the contact. Has no effect in the API, as currency for invoice always is required. See https://dev.billysbilling.dk/api/v1/types/currencies for possible values. This will be used for ALL contacts.", "Default" => "DKK"),
 
