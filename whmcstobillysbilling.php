@@ -2,9 +2,6 @@
 /**
  * Whmcs to BillysBilling
  *
- * This example addon module demonstrates all the functions an addon module can contain.
- * Please refer to the full documentation @ http://docs.whmcs.com/Addon_Modules for more details.
- * This script requires php 5.3 or above
  *
  * @package    whmcstobillysbilling
  * @author     Kim Vinberg <info@dicm.dk>
@@ -12,6 +9,7 @@
  * @license    http://dicm.dk
  * @version    $Id$
  * @link       http://dicm.dk/
+ * @github	https://github.com/dicm/whmcstobillysbilling
  */
 
 if (!defined("WHMCS"))
@@ -32,22 +30,22 @@ function whmcstobillysbilling_config() {
     "language" => "english",
 
     "fields" => array(
-		"option1" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Aktiver \"Opret kunder automatisk (Sker automatisk ved faktura, hvis de ikke er oprettet)\" ", ),
-		"option2" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Aktiver \"Opdater kunder automatisk\" ", ),	
-		"option3" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Aktiver \"Opret fakturaer i BillysBilling\" ", ),	
-		"option4" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Aktiver \"Tilf&oslash;j PDF fil til faktura\" ", ),	
-		"option5" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Aktiver \"S&aelig;t fakturaer som betalt, n&aring;r betalt\" ", ),	
-		"option6" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Aktiver \"Tilf&oslash;j betalinger automatisk til fakturaer og opdater bel&oslash;b\" ", ),	
-		"option7" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Aktiver \"Annuller fakturaer\" ", ),		
-		"option8" => array ("FriendlyName" => "BillysBilling betalings konto", "Type" => "text", "Size" => "50", "Description" => "", "Default" => "Bank"),
+		"option1" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Opret kunder automatisk (Sker automatisk ved faktura, hvis de ikke er oprettet)\" ", ),
+		"option2" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Opdater kunder automatisk\" ", ),	
+		"option3" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Opret fakturaer i BillysBilling (Not yet available)\" ", ),	
+		"option4" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Tilf&oslash;j PDF fil til faktura (Not yet available)\" ", ),	
+		"option5" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"S&aelig;t fakturaer som betalt, n&aring;r betalt (Not yet available)\" ", ),	
+		"option6" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Tilf&oslash;j betalinger automatisk til fakturaer og opdater bel&oslash;b (Not yet available)\" ", ),	
+		"option7" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Annuller fakturaer (Not yet available)\" ", ),		
+		"option8" => array ("FriendlyName" => "BillysBilling account for payments", "Type" => "text", "Size" => "50", "Description" => "", "Default" => "Bank"),
 
-"option95" => array ("FriendlyName" => "countryId", "Type" => "text", "Size" => "50", "Description" => "The contacts home/business country. See https://dev.billysbilling.dk/api/v1/types/countries for possible values. This will be used for ALL contacts.", "Default" => "DK"),
+"option95" => array ("FriendlyName" => "countryId", "Type" => "text", "Size" => "50", "Description" => "The contacts home/business country. See https://dev.billysbilling.dk/api/v1/types/countries for possible values. This will be used for ALL contacts if the script cannot find a suitable ID from WHMCS.", "Default" => "DK"),
 
 		"option96" => array ("FriendlyName" => "localeId", "Type" => "text", "Size" => "50", "Description" => "Locale to use in communications with the contact. The locale also decides which locale should be used on invoices to the contact. See https://dev.billysbilling.dk/api/v1/types/locales for possible values. This will be used for ALL contacts.", "Default" => "da_DK"),
 
 		"option97" => array ("FriendlyName" => "currencyId", "Type" => "text", "Size" => "50", "Description" => "Default currency to use for invoices to the contact. Has no effect in the API, as currency for invoice always is required. See https://dev.billysbilling.dk/api/v1/types/currencies for possible values. This will be used for ALL contacts.", "Default" => "DKK"),
 
-		"option98" => array ("FriendlyName" => "Aktiver \"Log\"", "Type" => "yesno", "Size" => "25", "Description" => "Log file location: /modules/addons/whmcstobillysbilling/whmcstobillysbilling_log.html ", ),	
+		"option98" => array ("FriendlyName" => "Activate \"Log\"", "Type" => "yesno", "Size" => "25", "Description" => "Log file location: /modules/addons/whmcstobillysbilling/whmcstobillysbilling_log.html ", ),	
 		"option99" => array ("FriendlyName" => "BillysBilling API key", "Type" => "text", "Size" => "50", "Description" => "", "Default" => "Xx0XXXxX00Xxx0xxXXxXXXXxXXXXXxx0")
 	  
 
