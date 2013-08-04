@@ -30,6 +30,23 @@ while ($arr = mysql_fetch_array($q)) {
 
 /* ALL SETTINGS FOR THE SCRIPT */
 
+/**/
+
+function localeId($localeId) {
+
+$array = array("DK" => "da_DK");
+
+if(isset($array[$localeId]) && $array[$localeId] != '') {
+$localeId = $array[$localeId];
+} else {
+//fallback to en_US
+$localeId = "en_US"; //english
+}
+
+return $localeId;
+
+}
+
 /* This file is used to match the countries from WHMCS in BillysBilling, so when adding or editing a client, his / hers country will be correct (this is important when buying and selling for VAT and balance in the correct accounts.
 The country: 	"Curacao" have been set to NL.
  */
@@ -458,7 +475,7 @@ function whmcstobillysbilling_hook_ClientAdd($vars)
                         "currencyId" => $whmcstobillysbilling_settings['option97'],
                         "vatNo" => "",
                         "ean" => "",
-                        "localeId" => $whmcstobillysbilling_settings['option96'],
+                        "localeId" => localeId($vars['country']),
                         "reminderSchemeId" => "",
                         "externalId" => "",
                         "persons" => array(
@@ -566,14 +583,14 @@ try {
                         "street" => $address1,
                         "zipcode" => $postcode,
                         "city" => $city,
-                        "countryId" => $whmcstobillysbilling_settings['option95'],
+                        "countryId" => countryId($vars['country']),
                         "state" => $state,
                         "phone" => $phonenumber,
                         "fax" => "",
                         "currencyId" => $whmcstobillysbilling_settings['option97'],
                         "vatNo" => "",
                         "ean" => "",
-                        "localeId" => $whmcstobillysbilling_settings['option96'],
+                        "localeId" => localeId($vars['country']),
                         "reminderSchemeId" => "",
                         "externalId" => "",
                         "persons" => array(
