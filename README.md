@@ -14,6 +14,9 @@ You as site owner will be able to activate / deactivate some functions you want 
 * "Create cliens automatically" : Creates the client in BillysBilling using the information available from WHMCS. <br>This is not a option if the function "Create invoice in BillysBilling" is active.<br>
 * "Update clients automatically" : Updates client information when a client or admin edit the information. <br><br>
 
+<b>Changelog (partial):</b><br>
+Function: billysbilling_hook_UpdateInvoiceTotal() , removed in new version. Was used to allow creation of invoices from WHMCS admin, but this function added a new invoice in BillyBilling for every line in it andn the invoice numbers increase wrong. That was not fixable, because of the way WHMCS created this type of invoice (invoice is created before items have been added, creating blank imvoices in BillysBilling. Creating the invoice only when item is added is possible , but it will only work with 1 product each invoice OR the problem will continue.) Removed. 
+<br><br>
 <b>Installation:</b><br>
 * Upload the files you recieved from the Zip file to: http://xxxxxxx.xxx/YOUR-WHMCS-DIR/modules/addons/<br>
 If the Zip file does not contain a directory called "whmcstobillysbilling", then create the directoryin the above directory.<br>

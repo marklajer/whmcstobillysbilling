@@ -694,7 +694,8 @@ try {
 			whmcstobillysbilling_hook_ClientAdd($vars);
 			}
 			
-		/*		
+		print_r($results);
+		die('we just died...');
 			foreach($results['items']['item'] AS $item => $line)
 			{
 
@@ -708,7 +709,8 @@ try {
 			$productamount = $line['amount'];
 			$productamount = $productamount - ($productamount * $settings['option6'] / 100);
 						
-				if($productamount < 0)
+			/*
+						if($productamount < 0)
 				{
 					$prices = array("currencyId" => $settings['option12'], "unitPrice" => 0);
 				}
@@ -744,22 +746,23 @@ $linamount = $line['amount'];
 $linamount = $linamount - ($linamount * $settings['option6'] / 100);
 $lines[] = array("productId" => $productId, "description" => $line['description'], "quantity" => "1", "unitPrice" => $linamount);
 		
-			
+			*/	
 			} //END foreach
 				
 			$dueDate = $results['duedate'];
 			$entryDate = $results['date'];
 			$invoiceNo = $results['invoiceid'];	
 			$type = "invoice";
+			/*
 			$output = CreateInvoice($apiKey, $contactId, $lines, $dueDate, $entryDate, $invoiceNo, $type, $currencyId);
-
-			$invoiceId = $output->id;		
+*/
+			/*$invoiceId = $output->id;		
 			$fileUrl = "" . $settings['option14'] . "dl.php?type=i&id=" . $results['invoiceid'] . "&viewpdf=0";		
 			$data = pdfInvoice($results['invoiceid']);	
 			$filename = "Invoice-" . $results['invoiceid'] . ".pdf";	
 			$var = "" . CreateAttachment($apiKey, $invoiceId, $data, $filename) . "";
-			
-	*/
+			*/
+
 			           
               /*      $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
                     $cmd    = $client->put("contacts/$contactId", array(
@@ -825,6 +828,4 @@ $lines[] = array("productId" => $productId, "description" => $line['description'
 }
 add_hook("InvoiceCreated", 1, "billysbilling_hook_InvoiceCreated");
 
-     
-     
-        
+
