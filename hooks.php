@@ -634,7 +634,197 @@ add_hook("ClientEdit", 1, "whmcstobillysbilling_hook_ClientEdit");
      
      
      
-     
+function billysbilling_hook_InvoiceCreated($vars)
+{
+	
+	    
+    global $whmcstobillysbilling_settings;
+    $logText = "";
+    
+    
+    if ($whmcstobillysbilling_settings['option3'] == 'on') {
+    
+    
+   $userid = $vars['userid'];	
+	$firstname = $vars['firstname'];	
+	$lastname = $vars['lastname'];	
+	$companyname = $vars['companyname'];
+	$email = $vars['email'];
+	$address1 = $vars['address1'];	
+	$address2 = $vars['address2'];
+	$city = $vars['city'];	
+	$state = $vars['state'];	
+	$postcode = $vars['postcode'];	
+	$country = countryId($vars['country']),
+	$phonenumber = $vars['phonenumber'];	
+	$password = $vars['password'];
+    
+    
+    
+try {
+ 
+	$adminuser = $whmcstobillysbilling_settings['option100'];
+	$command = 'getinvoice';
+	$values = array('invoiceid' => $vars['invoiceid']);	
+	$results = localAPI($command, $values, $adminuser);
+	$currencyId = "" . $whmcstobillysbilling_settings['option97'] . "";
+	
+	if($results['result'] == "success")
+	{
+	             
+      $command_client = "getclientsdetails";	
+		$values_client['clientid'] = $results['userid'];	
+		$values_client['stats'] = false;	
+		$values_client['responsetype'] = "xml";		
+		$results_client = localAPI($command_client, $values_client, $adminuser);
+				
+		if($results_client['result'] == "success")
+		{
+					
+			$email = $results_client['client']['email'];			
+			$contactId = "" . GetContactId($email, $firstname, $lastname) . "";
+			
+	}  else {
+                        $msg = "Results no success on client.";
+                        whmcstobillysbilling_log($msg);      
+             }           
+                    
+         if($contactId == 0)
+			{
+			whmcstobillysbilling_hook_ClientAdd($vars);
+			}
+			
+			
+			foreach($results['items']['item'] AS $item => $line)
+			{
+
+		/*	$description_exp = explode(" (", $line['description']);
+			$description_exp1 = explode(" - ", $line['description']);
+			$description = str_replace(":", "", $description_exp1['0']);
+			$description_expanded = "" . $line['type'] . ": " . $description_exp['0'] . "";
+				
+			$accountId = "" . GetAccountId($apiKey, $settings['option3']) . "";
+			$vatModelId = "" . GetvatModelId($apiKey, $settings['option4']) . "";
+			$productamount = $line['amount'];
+			$productamount = $productamount - ($productamount * $settings['option6'] / 100);
+						
+				if($productamount < 0)
+				{
+					$prices = array("currencyId" => $settings['option12'], "unitPrice" => 0);
+				}
+				else
+				{
+					$prices = array("currencyId" => $settings['option12'], "unitPrice" => $productamount);
+				}
+				
+				$create = "1";
+				
+				$output = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "1");
+
+				if($output == '0' && $create == '1' || $output == '' && $create == '1')
+				{
+
+						$output1 = CreateProduct($apiKey, $description, $description, $accountId, $vatModelId, $prices);
+	
+					if($output1 == '') { 
+					$productId = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "0");
+					} else {
+					$productId =  $output1;
+					}			
+
+				}
+				else
+				{
+					$productId = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "0");						
+
+				}
+				
+				
+$linamount = $line['amount'];	
+$linamount = $linamount - ($linamount * $settings['option6'] / 100);
+$lines[] = array("productId" => $productId, "description" => $line['description'], "quantity" => "1", "unitPrice" => $linamount);
+		
+			
+			} //END foreach
+				
+			$dueDate = $results['duedate'];
+			$entryDate = $results['date'];
+			$invoiceNo = $results['invoiceid'];	
+			$type = "invoice";
+			$output = CreateInvoice($apiKey, $contactId, $lines, $dueDate, $entryDate, $invoiceNo, $type, $currencyId);
+
+			$invoiceId = $output->id;		
+			$fileUrl = "" . $settings['option14'] . "dl.php?type=i&id=" . $results['invoiceid'] . "&viewpdf=0";		
+			$data = pdfInvoice($results['invoiceid']);	
+			$filename = "Invoice-" . $results['invoiceid'] . ".pdf";	
+			$var = "" . CreateAttachment($apiKey, $invoiceId, $data, $filename) . "";
+			
+	*/
+			           
+              /*      $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
+                    $cmd    = $client->put("contacts/$contactId", array(
+                        "name" => "$firstname $lastname",
+                        "street" => $address1,
+                        "zipcode" => $postcode,
+                        "city" => $city,
+                        "countryId" => countryId($vars['country']),
+                        "state" => $state,
+                        "phone" => $phonenumber,
+                        "fax" => "",
+                        "currencyId" => $whmcstobillysbilling_settings['option97'],
+                        "vatNo" => "",
+                        "ean" => "",
+                        "localeId" => localeId($vars['country']),
+                        "reminderSchemeId" => "",
+                        "externalId" => "",
+                        "persons" => array(
+                            array(
+                                "name" => "$firstname $lastname",
+                                "email" => $email,
+                                "phone" => $phonenumber
+                            )
+                        )
+                    ));
+                    
+                    if ($cmd->success == 'true') {
+                        $msg = "Invoice created.";
+                        whmcstobillysbilling_log($msg);
+                    } //$cmd->success == 'true'
+                    else {
+                        $msg = "Failed to add invoice.";
+                        whmcstobillysbilling_log($msg);
+                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    }*/
+   	} //result fails.
+   	  else {
+                        $msg = "Results no success.";
+                        whmcstobillysbilling_log($msg);
+                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    }
+                                   
+                }
+                catch (Billy_Exception $e) { // Will be caught
+                    whmcstobillysbilling_log($e->getJsonBody());
+                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                }
+                
+                
+    
+    
+    } //if option3 on
+
+}
+add_hook("InvoiceCreated", 1, "billysbilling_hook_InvoiceCreated");
+
      
      
         

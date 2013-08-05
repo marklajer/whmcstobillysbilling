@@ -44,7 +44,9 @@ function whmcstobillysbilling_config() {
 		"option97" => array ("FriendlyName" => "currencyId", "Type" => "text", "Size" => "50", "Description" => "Default currency to use for invoices to the contact. Has no effect in the API, as currency for invoice always is required. See https://dev.billysbilling.dk/api/v1/types/currencies for possible values. This will be used for ALL contacts.", "Default" => "DKK"),
 
 		"option98" => array ("FriendlyName" => "Activate \"Log\"", "Type" => "yesno", "Size" => "25", "Description" => "Log file location: /modules/addons/whmcstobillysbilling/whmcstobillysbilling_log.html ", ),	
-		"option99" => array ("FriendlyName" => "BillysBilling API key", "Type" => "text", "Size" => "50", "Description" => "", "Default" => "Xx0XXXxX00Xxx0xxXXxXXXXxXXXXXxx0")
+		"option99" => array ("FriendlyName" => "BillysBilling API key", "Type" => "text", "Size" => "50", "Description" => "", "Default" => "Xx0XXXxX00Xxx0xxXXxXXXXxXXXXXxx0"),
+		"option100" => array ("FriendlyName" => "WHMCS admin username", "Type" => "text", "Size" => "50", "Description" => "Requires full access", "Default" => ""),
+
 	  
 
     ));
