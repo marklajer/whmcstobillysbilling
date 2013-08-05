@@ -19,16 +19,16 @@ You as site owner will be able to activate / deactivate some functions you want 
 If the Zip file does not contain a directory called "whmcstobillysbilling", then create the directoryin the above directory.<br>
 * Go to your site (backend): http://xxxxxxx.xxx/YOUR-WHMCS-DIR/admin/configaddonmods.php<br>
 * Activate the addon by clicking the "Activate" button.<br>
-* <b>Click the "Configure" button and enter theese informations:</b> <br>
+* <b>Click the "Configure" button and enter these informations:</b> <br>
 BillysBilling API key (you can find this in your BillysBilling account)<br>
 WHMCS admin username	(the username you login with)<br>
 Now select some of the functions you want to activate.<br>
 * Go to your BillysBilling account and find "ChartOfAccounts"<br>
-* <b>Add a new account with theese informations:</b><br>
+* <b>Add a new account with these informations:</b><br>
 Type: income<br>
 Name: whmcs-sale<br>
 Vat rate: no vat<br><br>
-<b>Add a second account with theese informations:</b><br>
+<b>Add a second account with these informations:</b><br>
 Type: income<br>
 Name: whmcs-sale-vat<br>
 Vat rate: your vat rate<br>
