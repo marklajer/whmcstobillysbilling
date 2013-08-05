@@ -655,7 +655,7 @@ function billysbilling_hook_InvoiceCreated($vars)
 	$city = $vars['city'];	
 	$state = $vars['state'];	
 	$postcode = $vars['postcode'];	
-	$country = countryId($vars['country']),
+	$country = countryId($vars['country']);
 	$phonenumber = $vars['phonenumber'];	
 	$password = $vars['password'];
     
@@ -684,7 +684,7 @@ try {
 			$email = $results_client['client']['email'];			
 			$contactId = "" . GetContactId($email, $firstname, $lastname) . "";
 			
-	}  else {
+		}  else {
                         $msg = "Results no success on client.";
                         whmcstobillysbilling_log($msg);      
              }           
@@ -694,11 +694,11 @@ try {
 			whmcstobillysbilling_hook_ClientAdd($vars);
 			}
 			
-			
+		/*		
 			foreach($results['items']['item'] AS $item => $line)
 			{
 
-		/*	$description_exp = explode(" (", $line['description']);
+		$description_exp = explode(" (", $line['description']);
 			$description_exp1 = explode(" - ", $line['description']);
 			$description = str_replace(":", "", $description_exp1['0']);
 			$description_expanded = "" . $line['type'] . ": " . $description_exp['0'] . "";
