@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+ error_reporting(E_ALL);
 /**
  * Whmcs to BillysBilling Hooks
  *
@@ -369,7 +371,7 @@ function GetContactId($email, $firstname, $lastname)
     $end = 0;
     $contactId = 0;
     
-    for ($i = 0; $i <= $keys; $i++) {
+    for ($i = 0; $i <= $keys-1; $i++) {
 
         if ($cmd->contacts[$i]->persons[0]->email == $email) {
         
@@ -408,14 +410,14 @@ function GetContactId($email, $firstname, $lastname)
 ADD CLIENT
 
 */
-function whmcstobillysbilling_hook_ClientAdd($vars)
+function whmcstobillysbilling_hook_ClientAdd($vars, $create = '0')
 {
-    
+
     global $whmcstobillysbilling_settings;
     $logText = "";
     
     
-    if ($whmcstobillysbilling_settings['option1'] == 'on') {
+    if ($whmcstobillysbilling_settings['option1'] == 'on' || $create == '1') {
         
         $userid      = $vars['userid'];
         $firstname   = $vars['firstname'];
@@ -631,8 +633,178 @@ try {
 	
 }
 add_hook("ClientEdit", 1, "whmcstobillysbilling_hook_ClientEdit");
+
+/*
+*
+* GET account ID
+* $namel : Used to find the specific acount name in BillysBilling account (whmcs-sale and whmcsa-saleVat)
+*
+*/
+function GetAccountId($vat = 0)
+
+{
+
+    global $whmcstobillysbilling_settings;
+
+
+if($vat == 0) {
+$name = "whmcs-sale";
+} else {
+$name = "whmcs-sale-vat";
+}
+
+    
+      try {
+            $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
+            $cmd    = $client->get("accounts?q=$name");
+            
+            whmcstobillysbilling_log(json_encode($cmd));
+  
+      
+	 $keys = count($cmd->accounts);
+    $end = 0;
+    $accountId = 0;
+    
+    for ($i = 0; $i <= $keys-1; $i++) {
+
+        if ($cmd->accounts[$i]->name == $name) {
+        
+            $accountId = $cmd->accounts[$i]->id;
+
+        } else
+            if ($end == 0) {
+                $end = 0;
+            }
+    }
+
+              }
+                catch (Billy_Exception $e) { // Will be caught
+                    whmcstobillysbilling_log($e->getJsonBody());
+                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                }
+  
+
+ return $accountId;
+
+}
+
+/*
+*
+* GET vatmodel ID
+* 
+*
+*/
+function GetVatmodelId($vat = 0)
+
+{
+
+    global $whmcstobillysbilling_settings;
+
+
+if($vat == 0) {
+$name = "Momsfrit";
+} else {
+$name = "Salgsmoms";
+}
+
+    
+      try {
+            $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
+            $cmd    = $client->get("vatModels?q=$name");
+            
+            whmcstobillysbilling_log(json_encode($cmd));
+  
+      
+	 $keys = count($cmd->vatModels);
+    $end = 0;
+    $accountId = 0;
+    
+    for ($i = 0; $i <= $keys-1; $i++) {
+
+        if ($cmd->vatModels[$i]->name == $name) {
+        
+            $VatmodelId = $cmd->vatModels[$i]->id;
+
+        } else
+            if ($end == 0) {
+                $end = 0;
+            }
+    }
+
+              }
+                catch (Billy_Exception $e) { // Will be caught
+                    whmcstobillysbilling_log($e->getJsonBody());
+                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                }
+  
+
+ return $VatmodelId;
+
+}
+
+
+
      
-     
+  
+  /*
+*
+* GET PRODUCT ID
+* $name : Used to find the specific product  BillysBilling products, if product is not unique, it will select first it finds.
+*
+*/
+function GetProductId($name) {
+
+	    
+    global $whmcstobillysbilling_settings;
+    $logText = "";
+    
+    
+    
+      try {
+            $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
+            $cmd    = $client->get("products?q=$name");
+            
+            whmcstobillysbilling_log(json_encode($cmd));
+  
+      
+	 $keys = count($cmd->products);
+    $end = 0;
+    
+    for ($i = 0; $i <= $keys-1; $i++) {
+
+        if ($cmd->products[$i]->name == $name) {
+        
+            $productId = $cmd->products[$i]->id;
+
+        } else
+            if ($end == 0) {
+                $end = 0;
+            }
+    }
+
+              }
+                catch (Billy_Exception $e) { // Will be caught
+                    whmcstobillysbilling_log($e->getJsonBody());
+                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                }
+  
+
+ return $productId;
+
+
+}
+
+
+   
      
 function billysbilling_hook_InvoiceCreated($vars)
 {
@@ -645,22 +817,7 @@ function billysbilling_hook_InvoiceCreated($vars)
     if ($whmcstobillysbilling_settings['option3'] == 'on') {
     
     
-   $userid = $vars['userid'];	
-	$firstname = $vars['firstname'];	
-	$lastname = $vars['lastname'];	
-	$companyname = $vars['companyname'];
-	$email = $vars['email'];
-	$address1 = $vars['address1'];	
-	$address2 = $vars['address2'];
-	$city = $vars['city'];	
-	$state = $vars['state'];	
-	$postcode = $vars['postcode'];	
-	$country = countryId($vars['country']);
-	$phonenumber = $vars['phonenumber'];	
-	$password = $vars['password'];
-    
-    
-    
+   
 try {
  
 	$adminuser = $whmcstobillysbilling_settings['option100'];
@@ -682,20 +839,39 @@ try {
 		{
 					
 			$email = $results_client['client']['email'];			
+			$firstname = "";
+			$lastname = "";
 			$contactId = "" . GetContactId($email, $firstname, $lastname) . "";
 			
 		}  else {
                         $msg = "Results no success on client.";
                         whmcstobillysbilling_log($msg);      
              }           
+           
                     
          if($contactId == 0)
 			{
-			whmcstobillysbilling_hook_ClientAdd($vars);
+
+        $clientVars = array(
+        "userid" => $results_client['client']['userid'],
+        "firstname" => $results_client['client']['firstname'],
+        "lastname" => $results_client['client']['lastname'],
+        "companyname" => $results_client['client']['companyname'],
+        "email" => $results_client['client']['email'],
+        "address1" => $results_client['client']['address1'],
+        "address2" => $results_client['client']['address2'],
+        "city" => $results_client['client']['city'],
+        "state" => $results_client['client']['state'],
+        "postcode" => $results_client['client']['postcode'],
+        "country" => $results_client['client']['country'],
+        "phonenumber" => $results_client['client']['phonenumber']
+        );
+			
+			whmcstobillysbilling_hook_ClientAdd($clientVars, '1'); //With forced create on
+			
 			}
 			
-		print_r($results);
-		die('we just died...');
+
 			foreach($results['items']['item'] AS $item => $line)
 			{
 
@@ -704,22 +880,33 @@ try {
 			$description = str_replace(":", "", $description_exp1['0']);
 			$description_expanded = "" . $line['type'] . ": " . $description_exp['0'] . "";
 				
-			$accountId = "" . GetAccountId($apiKey, $settings['option3']) . "";
-			$vatModelId = "" . GetvatModelId($apiKey, $settings['option4']) . "";
+
 			$productamount = $line['amount'];
-			$productamount = $productamount - ($productamount * $settings['option6'] / 100);
-						
-			/*
+				if($line['taxed'] != 0) {
+			$accountId = "" . GetAccountId("1") . ""; //with vat
+			$vatModelId = "" . GetvatModelId("1") . "";
+			$productamount = $productamount - ($productamount * 20 / 100);
+			} else {
+			$productamount = $productamount;
+			$accountId = "" . GetAccountId("0") . ""; //without vat
+			$vatModelId = "" . GetvatModelId("0") . "";
+			}
+			
+			
+			
 						if($productamount < 0)
 				{
-					$prices = array("currencyId" => $settings['option12'], "unitPrice" => 0);
+					$prices = array("currencyId" => $whmcstobillysbilling_settings['option97'], "unitPrice" => 0);
 				}
 				else
 				{
-					$prices = array("currencyId" => $settings['option12'], "unitPrice" => $productamount);
+					$prices = array("currencyId" => $whmcstobillysbilling_settings['option97'], "unitPrice" => $productamount);
 				}
-				
-				$create = "1";
+	
+	
+	print_r($line);
+	die();
+			/**/			
 				
 				$output = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "1");
 
@@ -740,19 +927,32 @@ try {
 					$productId = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "0");						
 
 				}
-				
-				
+		
+/**/
+
+
+
+
 $linamount = $line['amount'];	
-$linamount = $linamount - ($linamount * $settings['option6'] / 100);
+
+//This product have been taxed, then remove the tax for BB. Tax percent it static.
+if($line['taxed'] != 0) {	
+$linamount = $linamount - ($linamount * 20 / 100);
+
+} else {
+$linamount = $linamount;
+}
+
 $lines[] = array("productId" => $productId, "description" => $line['description'], "quantity" => "1", "unitPrice" => $linamount);
 		
-			*/	
+		
 			} //END foreach
 				
 			$dueDate = $results['duedate'];
 			$entryDate = $results['date'];
 			$invoiceNo = $results['invoiceid'];	
 			$type = "invoice";
+			
 			/*
 			$output = CreateInvoice($apiKey, $contactId, $lines, $dueDate, $entryDate, $invoiceNo, $type, $currencyId);
 */
