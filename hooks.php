@@ -907,8 +907,9 @@ try {
 				
 				$output = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "1");
 
-	print_r($line);
+/*	print_r($line);
 	die();
+	*/
 				if($output == '')
 				{
 
