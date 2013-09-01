@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 1);
- error_reporting(E_ALL);
 /**
  * Whmcs to BillysBilling Hooks
  *
@@ -904,13 +902,14 @@ try {
 				}
 	
 	
-	print_r($line);
-	die();
+
 			/**/			
 				
 				$output = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "1");
 
-				if($output == '0' && $create == '1' || $output == '' && $create == '1')
+	print_r($line);
+	die();
+				if($output == '')
 				{
 
 						$output1 = CreateProduct($apiKey, $description, $description, $accountId, $vatModelId, $prices);
