@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ ini_set('log_errors', 1);
+ ini_set('error_log', dirname(__FILE__) . '/error_log.txt');
+ error_reporting(E_ALL);
 /**
  * Whmcs to BillysBilling Hooks
  *
@@ -606,18 +610,27 @@ try {
                         $msg = "User '$firstname $lastname' updated in BillysBilling.";
                         whmcstobillysbilling_log($msg);
                     } //$cmd->success == 'true'
-                    else {
-                        $msg = "Could't update user in BillysBilling. User with the name '$firstname $lastname' and contactId: $contacId has errors. Check the log. ";
-                        whmcstobillysbilling_log($msg);
-                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
-                    }
+
                     
                 }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
+                              $msg = "Could't update user in BillysBilling. User with the name '$firstname $lastname' and contactId: $contacId has errors. ";
+                        whmcstobillysbilling_log($msg);
+                        
+                        /*
+                        
+                        */
+                   
+          whmcstobillysbilling_hook_ClientAdd($vars, '1');
+                     
+                        /*
+                        
+                        */
+                        
+                        
+                        
+                        
                     whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
                     whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
                     whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));

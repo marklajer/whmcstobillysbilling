@@ -32,7 +32,7 @@ function whmcstobillysbilling_config() {
     "fields" => array(
 		"option1" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Create clients automatically (If create invoice option is active, the client will be created)\" ", ),
 		"option2" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Update clients data automatically\" ", ),	
-		"option3" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Create invoices (50% done...)\" ", ),	
+		"option3" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Create invoices\" ", ),	
 		"option4" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Tilf&oslash;j PDF fil til faktura (Not yet available)\" ", ),	
 		"option5" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"S&aelig;t fakturaer som betalt, n&aring;r betalt (Not yet available)\" ", ),	
 		"option6" => array ("FriendlyName" => "", "Type" => "yesno", "Size" => "25", "Description" => "Activate \"Tilf&oslash;j betalinger automatisk til fakturaer og opdater bel&oslash;b (Not yet available)\" ", ),	
