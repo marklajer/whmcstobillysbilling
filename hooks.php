@@ -801,6 +801,103 @@ function GetProductId($name) {
 
 }
 
+function CreateProduct($vars)
+
+{
+
+    global $whmcstobillysbilling_settings;
+    $logText = "";
+  
+
+        
+        try {
+            $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
+            $cmd = $client->get("products?q=".$vars['name']."");
+            
+            whmcstobillysbilling_log(json_encode($cmd));
+            
+            
+	 $keys = count($cmd->products);
+    $end = 0;
+    
+    for ($i = 0; $i <= $keys-1; $i++) {
+
+        if ($cmd->products[$i]->name == $name) {
+        
+            $productId = $cmd->products[$i]->id;
+
+        } else
+            if ($end == 0) {
+                $end = 0;
+            }
+    }
+            
+            
+            if ($end == 0) { //No users found with this name, then we can create it.
+                
+                //Create user	
+                
+                try {
+                    
+                    $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
+                    $cmd    = $client->post("products", array(
+        "name" => $vars['name'],
+        "description" => $vars['description'],
+        "accountId" => $vars['accountId'],
+        "vatModelId" => $vars['vatModelId'],
+        "productType" => $vars['productType'],
+        "prices" => array($vars['prices'])));
+                    
+                    
+                    
+                    if ($cmd->success == 'true') {
+                        $msg = "Create product '".$vars['name']."' in BillysBilling.";
+                        whmcstobillysbilling_log($msg);
+                    } //$cmd->success == 'true'
+                    else {
+                        $msg = "Could't create product in BillysBilling. Product with the name '".$vars['name']."' allready exists or other error, check log above. ";
+                        whmcstobillysbilling_log($msg);
+                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    }
+                    
+                }
+                catch (Billy_Exception $e) { // Will be caught
+                    whmcstobillysbilling_log($e->getJsonBody());
+                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                }
+                
+                
+                
+            } //$end == 0
+            else {
+                
+               $msg = "Could't create product in BillysBilling. Product with the name '".$vars['name']."' allready exists or other error, check log above. ";
+                whmcstobillysbilling_log($msg);
+                
+            }
+            
+            
+            
+        }
+        catch (Billy_Exception $e) { // Will be caught
+            whmcstobillysbilling_log($e->getJsonBody());
+            whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
+            whmcstobillysbilling_log("Post data:" . json_encode($_POST));
+            whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+        }
+        
+
+}
+
+
+
+
 
    
      
@@ -839,14 +936,8 @@ try {
 			$email = $results_client['client']['email'];			
 			$firstname = "";
 			$lastname = "";
-			$contactId = "" . GetContactId($email, $firstname, $lastname) . "";
-			
-		}  else {
-                        $msg = "Results no success on client.";
-                        whmcstobillysbilling_log($msg);      
-             }           
-           
-                    
+			$contactId = "" . GetContactId($email, $firstname, $lastname) . "";    
+                          
          if($contactId == 0)
 			{
 
@@ -868,7 +959,9 @@ try {
 			whmcstobillysbilling_hook_ClientAdd($clientVars, '1'); //With forced create on
 			
 			}
-			
+				
+				$contactId = "" . GetContactId($email, $firstname, $lastname) . "";
+				
 
 			foreach($results['items']['item'] AS $item => $line)
 			{
@@ -903,20 +996,25 @@ try {
 	
 	
 
-			/**/			
 				
-				$output = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "1");
+				$output = GetProductId($description);
 
-/*	print_r($line);
-	die();
-	*/
+
 				if($output == '')
 				{
 
-						$output1 = CreateProduct($apiKey, $description, $description, $accountId, $vatModelId, $prices);
+			$vars =	array(
+        "name" => $description,
+        "description" => $description,
+        "accountId" => $accountId,
+        "vatModelId" => $vatModelId,
+        "productType" => 'product',
+        "prices" => $prices);
+
+						$output1 = CreateProduct($vars);
 	
 					if($output1 == '') { 
-					$productId = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "0");
+					$productId = GetProductId($description);
 					} else {
 					$productId =  $output1;
 					}			
@@ -924,24 +1022,19 @@ try {
 				}
 				else
 				{
-					$productId = GetProductId($apiKey, $description, $line['amount'], $description, $accountId, $vatModelId, $prices, "0");						
-
+					$productId = GetProductId($description);
 				}
-		
-/**/
-
-
-
+	
 
 $linamount = $line['amount'];	
 
-//This product have been taxed, then remove the tax for BB. Tax percent it static.
+//This product have been taxed, then remove the tax for BB. Tax percent is static.
 if($line['taxed'] != 0) {	
 $linamount = $linamount - ($linamount * 20 / 100);
-
 } else {
 $linamount = $linamount;
 }
+
 
 $lines[] = array("productId" => $productId, "description" => $line['description'], "quantity" => "1", "unitPrice" => $linamount);
 		
@@ -953,43 +1046,28 @@ $lines[] = array("productId" => $productId, "description" => $line['description'
 			$invoiceNo = $results['invoiceid'];	
 			$type = "invoice";
 			
-			/*
-			$output = CreateInvoice($apiKey, $contactId, $lines, $dueDate, $entryDate, $invoiceNo, $type, $currencyId);
-*/
-			/*$invoiceId = $output->id;		
+       
+    $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
+    $cmd    = $client->post("invoices", array(
+        "contactId" => $contactId,
+        "dueDate" => $dueDate,
+        "entryDate" => $entryDate,
+        "invoiceNo" => $invoiceNo,
+        "type" => $type,
+        "currencyId" => $currencyId,
+        "lines" => $lines,
+        "state" => "approved"));
+                    
+                    if ($cmd->success == 'true') {
+                    
+        /*$invoiceId = $output->id;		
 			$fileUrl = "" . $settings['option14'] . "dl.php?type=i&id=" . $results['invoiceid'] . "&viewpdf=0";		
 			$data = pdfInvoice($results['invoiceid']);	
 			$filename = "Invoice-" . $results['invoiceid'] . ".pdf";	
 			$var = "" . CreateAttachment($apiKey, $invoiceId, $data, $filename) . "";
 			*/
 
-			           
-              /*      $client = new Billy_Client($whmcstobillysbilling_settings['option99']);
-                    $cmd    = $client->put("contacts/$contactId", array(
-                        "name" => "$firstname $lastname",
-                        "street" => $address1,
-                        "zipcode" => $postcode,
-                        "city" => $city,
-                        "countryId" => countryId($vars['country']),
-                        "state" => $state,
-                        "phone" => $phonenumber,
-                        "fax" => "",
-                        "currencyId" => $whmcstobillysbilling_settings['option97'],
-                        "vatNo" => "",
-                        "ean" => "",
-                        "localeId" => localeId($vars['country']),
-                        "reminderSchemeId" => "",
-                        "externalId" => "",
-                        "persons" => array(
-                            array(
-                                "name" => "$firstname $lastname",
-                                "email" => $email,
-                                "phone" => $phonenumber
-                            )
-                        )
-                    ));
                     
-                    if ($cmd->success == 'true') {
                         $msg = "Invoice created.";
                         whmcstobillysbilling_log($msg);
                     } //$cmd->success == 'true'
@@ -1000,7 +1078,16 @@ $lines[] = array("productId" => $productId, "description" => $line['description'
                         whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
                         whmcstobillysbilling_log("Post data:" . json_encode($_POST));
                         whmcstobillysbilling_log("Get data: " . json_encode($_GET));
-                    }*/
+                    }
+
+
+
+                    
+                    	}  else {
+                        $msg = "Results no success on client.";
+                        whmcstobillysbilling_log($msg);      
+             }       
+             
    	} //result fails.
    	  else {
                         $msg = "Results no success.";
