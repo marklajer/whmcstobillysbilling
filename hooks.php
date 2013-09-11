@@ -384,10 +384,10 @@ function GetContactId($email, $firstname, $lastname)
               }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
-                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                 }
   
 
@@ -495,19 +495,19 @@ function whmcstobillysbilling_hook_ClientAdd($vars, $create = '0')
                     else {
                         $msg = "Could't create user in BillysBilling. User with the name '$firstname $lastname' allready exists or other error, check log above. ";
                         whmcstobillysbilling_log($msg);
-                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                        whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                        whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                        whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                        whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                     }
                     
                 }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
-                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                 }
                 
                 
@@ -525,9 +525,9 @@ function whmcstobillysbilling_hook_ClientAdd($vars, $create = '0')
         }
         catch (Billy_Exception $e) { // Will be caught
             whmcstobillysbilling_log($e->getJsonBody());
-            whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-            whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-            whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+            whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+            whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+            whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
         }
         
     } //end if option1
@@ -618,10 +618,10 @@ try {
                 }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
-                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                 }
                 
                 
@@ -678,10 +678,10 @@ $name = "whmcs-sale-vat";
               }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
-                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                 }
   
 
@@ -735,10 +735,10 @@ $name = "Salgsmoms";
               }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
-                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                 }
   
 
@@ -789,10 +789,10 @@ function GetProductId($name) {
               }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
-                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                 }
   
 
@@ -857,10 +857,10 @@ function CreateProduct($vars)
                     else {
                         $msg = "Could't create product in BillysBilling. Product with the name '".$vars['name']."' allready exists or other error, check log above. ";
                         whmcstobillysbilling_log($msg);
-                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                        whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                        whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                        whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                        whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                     }
                     
                 }
@@ -887,9 +887,9 @@ function CreateProduct($vars)
         }
         catch (Billy_Exception $e) { // Will be caught
             whmcstobillysbilling_log($e->getJsonBody());
-            whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-            whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-            whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+            whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+            whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+            whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
         }
         
 
@@ -1074,10 +1074,10 @@ $lines[] = array("productId" => $productId, "description" => $line['description'
                     else {
                         $msg = "Failed to add invoice.";
                         whmcstobillysbilling_log($msg);
-                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                        whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                        whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                        whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                        whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                     }
 
 
@@ -1092,19 +1092,19 @@ $lines[] = array("productId" => $productId, "description" => $line['description'
    	  else {
                         $msg = "Results no success.";
                         whmcstobillysbilling_log($msg);
-                        whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                        whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                        whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                        whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                        whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                        whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                        whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                        whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                     }
                                    
                 }
                 catch (Billy_Exception $e) { // Will be caught
                     whmcstobillysbilling_log($e->getJsonBody());
-                    whmcstobillysbilling_log("Api data: " . json_encode($cmd));
-                    whmcstobillysbilling_log("Options:" . json_encode($whmcstobillysbilling_settings));
-                    whmcstobillysbilling_log("Post data:" . json_encode($_POST));
-                    whmcstobillysbilling_log("Get data: " . json_encode($_GET));
+                    whmcstobillysbilling_log(" (".__LINE__.") Api data: " . json_encode($cmd));
+                    whmcstobillysbilling_log(" (".__LINE__.") Options:" . json_encode($whmcstobillysbilling_settings));
+                    whmcstobillysbilling_log(" (".__LINE__.") Post data:" . json_encode($_POST));
+                    whmcstobillysbilling_log(" (".__LINE__.") Get data: " . json_encode($_GET));
                 }
                 
                 
